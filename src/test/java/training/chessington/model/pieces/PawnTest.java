@@ -135,12 +135,20 @@ public class PawnTest {
         Board board = Board.empty();
 
         Piece blackPawn = new Pawn(PlayerColour.BLACK);
-        Coordinates blackCoords = new Coordinates(2, 4);
+        Coordinates blackCoords = new Coordinates(1, 4);
         board.placePiece(blackCoords, blackPawn);
 
         Piece whitePawn = new Pawn(PlayerColour.WHITE);
-        Coordinates whiteCoords = new Coordinates(4, 4);
+        Coordinates whiteCoords = new Coordinates(6, 4);
         board.placePiece(whiteCoords, whitePawn);
+
+        Piece whiteBlockingPiece = new Pawn(PlayerColour.WHITE);
+        Coordinates whiteBlockingCoords = new Coordinates(3, 4);
+        board.placePiece(whiteBlockingCoords, whiteBlockingPiece);
+
+        Piece blackBlockingPiece = new Pawn(PlayerColour.WHITE);
+        Coordinates blackBlockingCoords = new Coordinates(3, 4);
+        board.placePiece(blackBlockingCoords, blackBlockingPiece);
 
         // Act
         List<Move> blackMoves = blackPawn.getAllowedMoves(blackCoords, board);

@@ -22,19 +22,23 @@ public class Pawn extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> allowedMoves = new ArrayList<Move>();
 
+        int startRow = (colour == PlayerColour.WHITE) ? 6 : 1;
+
+        int endRow = (colour == PlayerColour.WHITE) ? 0 : 7;
+
         if (colour == PlayerColour.WHITE) {
-            if (from.getRow() == 6 && !board.isSquareOccupied(from.plus(-2, 0))) {
+            if (from.getRow() == startRow && !board.isSquareOccupied(from.plus(-2, 0))) {
                 addAllowedMoves(new Move(from, from.plus(-2, 0)), allowedMoves);
             }
-            if (from.getRow() > 0  && !board.isSquareOccupied(from.plus(-1, 0)))
+            if (from.getRow() > endRow && !board.isSquareOccupied(from.plus(-1, 0)))
                 addAllowedMoves(new Move(from, from.plus(-1, 0)), allowedMoves);
-        } 
+        }
 
         if (colour == PlayerColour.BLACK) {
-            if (from.getRow() == 1 && !board.isSquareOccupied(from.plus(2, 0))) {
+            if (from.getRow() == startRow && !board.isSquareOccupied(from.plus(2, 0))) {
                 addAllowedMoves(new Move(from, from.plus(2, 0)), allowedMoves);
             }
-            if (from.getRow() < 7 && !board.isSquareOccupied(from.plus(1, 0)))
+            if (from.getRow() < endRow && !board.isSquareOccupied(from.plus(1, 0)))
                 addAllowedMoves(new Move(from, from.plus(1, 0)), allowedMoves);
         }
 
