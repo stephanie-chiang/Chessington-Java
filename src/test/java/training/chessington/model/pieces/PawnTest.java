@@ -16,8 +16,11 @@ public class PawnTest {
         // Arrange
         Board board = Board.empty();
         Piece pawn = new Pawn(PlayerColour.WHITE);
+
+        System.out.println(pawn);
         Coordinates coords = new Coordinates(6, 4);
         board.placePiece(coords, pawn);
+        System.out.println(coords);
 
         // Act
         List<Move> moves = pawn.getAllowedMoves(coords, board);
