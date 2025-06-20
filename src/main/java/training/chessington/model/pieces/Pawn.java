@@ -13,25 +13,27 @@ public class Pawn extends AbstractPiece {
         super(Piece.PieceType.PAWN, colour);
     }
 
+    public List<Move> addAllowedMoves(Move anAllowedMove, List<Move> allowedMoves) {
+        allowedMoves.add(anAllowedMove);
+        return allowedMoves;
+    }
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> allowedMoves = new ArrayList<Move>();
-
-        //get player colour at coordinates?
-        //playercolour of current object method is being called on
-
         if (colour == PlayerColour.WHITE) {
-            Move newMove = new Move(from, from.plus(-1, 0));
-            allowedMoves.add(newMove);
+            if (from.getRow() == 6) {
+                addAllowedMoves(new Move(from, from.plus(-2, 0)), allowedMoves);
+            }
+            addAllowedMoves(new Move(from, from.plus(-1, 0)), allowedMoves);
         } 
 
         if (colour == PlayerColour.BLACK) {
-            Move newMove = new Move(from, from.plus(1,0));
-            allowedMoves.add(newMove);
+            if (from.getRow() == 1) {
+                addAllowedMoves(new Move(from, from.plus(2, 0)), allowedMoves);
+            }
+            addAllowedMoves(new Move(from, from.plus(1, 0)), allowedMoves);
         }
-
-        System.out.println(from);
 
         return allowedMoves;
     }
