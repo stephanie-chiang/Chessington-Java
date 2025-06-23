@@ -50,7 +50,7 @@ public class Board {
         board[coords.getRow()][coords.getCol()] = piece;
     }
 
-    public boolean isSquareUnoccupied(Coordinates coords) { 
+    public boolean isSquareOccupied(Coordinates coords) { 
         return (this.get(coords) instanceof Piece);
     }
 }
