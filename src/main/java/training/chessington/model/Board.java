@@ -49,4 +49,8 @@ public class Board {
     public void placePiece(Coordinates coords, Piece piece) {
         board[coords.getRow()][coords.getCol()] = piece;
     }
+
+    public boolean isSquareUnoccupied(Coordinates coords) { 
+        return (this.get(coords) instanceof Piece);
+    }
 }

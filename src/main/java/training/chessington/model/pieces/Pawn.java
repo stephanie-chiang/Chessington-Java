@@ -22,17 +22,19 @@ public class Pawn extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List<Move> allowedMoves = new ArrayList<Move>();
         if (colour == PlayerColour.WHITE) {
-            if (from.getRow() == 6) {
+            if (from.getRow() == 6 && !board.isSquareUnoccupied(from.plus(-2, 0))) {
                 addAllowedMoves(new Move(from, from.plus(-2, 0)), allowedMoves);
             }
-            addAllowedMoves(new Move(from, from.plus(-1, 0)), allowedMoves);
+            if (!board.isSquareUnoccupied(from.plus(-1, 0)))
+                addAllowedMoves(new Move(from, from.plus(-1, 0)), allowedMoves);
         } 
 
         if (colour == PlayerColour.BLACK) {
-            if (from.getRow() == 1) {
+            if (from.getRow() == 1 && !board.isSquareUnoccupied(from.plus(2, 0))) {
                 addAllowedMoves(new Move(from, from.plus(2, 0)), allowedMoves);
             }
-            addAllowedMoves(new Move(from, from.plus(1, 0)), allowedMoves);
+            if (!board.isSquareUnoccupied(from.plus(1, 0)))
+                addAllowedMoves(new Move(from, from.plus(1, 0)), allowedMoves);
         }
 
         return allowedMoves;
