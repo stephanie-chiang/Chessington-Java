@@ -203,11 +203,10 @@ public class PawnTest {
 
         // Act
         List<Move> moves = pawn.getAllowedMoves(pawnCoords, board);
-
         // Assert
         assertThat(moves).contains(new Move(pawnCoords, enemyCoords));
     }
-
+    
     @Test
     public void blackPawnsCanCaptureDiagonally() {
         // Arrange
@@ -216,10 +215,12 @@ public class PawnTest {
         Piece enemyPiece = new Rook(PlayerColour.WHITE);
         Coordinates pawnCoords = new Coordinates(3, 4);
         board.placePiece(pawnCoords, pawn);
-
+        
         Coordinates enemyCoords = pawnCoords.plus(1, 1);
         board.placePiece(enemyCoords, enemyPiece);
-
+        System.out.println("Black Pawns can capture diag test. Colour of enemy pieec to take:");
+        System.out.println(enemyPiece.getColour());
+        
         // Act
         List<Move> moves = pawn.getAllowedMoves(pawnCoords, board);
 
