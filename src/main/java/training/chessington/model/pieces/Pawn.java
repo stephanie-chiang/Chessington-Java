@@ -21,8 +21,7 @@ public class Pawn extends AbstractPiece {
     public List<Move> addToAllowedMovesIfCapturing(
             Board board, Coordinates from, Coordinates coordsPieceToTake, List<Move> allowedMoves) {
         
-        if (board.isSquareOccupied(coordsPieceToTake) 
-            && board.get(coordsPieceToTake).getColour() != colour)
+        if (board.isSquareOccupied(coordsPieceToTake) && board.get(coordsPieceToTake).getColour() != colour)
             allowedMoves.add(new Move(from, coordsPieceToTake));
         
         return allowedMoves;

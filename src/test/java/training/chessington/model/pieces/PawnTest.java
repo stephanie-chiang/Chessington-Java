@@ -291,4 +291,42 @@ public class PawnTest {
         Coordinates otherDiagonal = pawnCoords.plus(1, -1);
         assertThat(moves).doesNotContain(new Move(pawnCoords, otherDiagonal));
     }
+    
+    @Test
+    public void whitePawnCannotTakeBlackKing() {
+        //Arrange
+        Board board = Board.empty();
+        Piece pawn = new Pawn(PlayerColour.WHITE);
+        Piece enemyKing = new King(PlayerColour.BLACK);
+        Coordinates pawnCoords = new Coordinates(5,6);
+        board.placePiece(pawnCoords, pawn);
+
+        Coordinates kingCoords = pawnCoords.plus(1,-1);
+        board.placePiece(kingCoords, enemyKing);
+
+        //Act
+        List<Move> moves = pawn.getAllowedMoves(pawnCoords, board);
+
+        //Assert
+        assertThat(moves).doesNotContain(new Move(pawnCoords, kingCoords));
+    }
+
+    @Test
+    public void blackPawnCannotTakeWhiteKing() {
+        //Arrange
+        Board board = Board.empty();
+        Piece pawn = new Pawn(PlayerColour.BLACK);
+        Piece enemyKing = new King(PlayerColour.WHITE);
+        Coordinates pawnCoords = new Coordinates(1,6);
+        board.placePiece(pawnCoords, pawn);
+
+        Coordinates kingCoords = pawnCoords.plus(-1,-1);
+        board.placePiece(kingCoords, enemyKing);
+
+        //Act
+        List<Move> moves = pawn.getAllowedMoves(pawnCoords, board);
+
+        //Assert
+        assertThat(moves).doesNotContain(new Move(pawnCoords, kingCoords));
+    }
 }
