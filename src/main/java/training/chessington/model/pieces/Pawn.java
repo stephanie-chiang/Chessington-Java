@@ -13,18 +13,26 @@ public class Pawn extends AbstractPiece {
         super(Piece.PieceType.PAWN, colour);
     }
 
-    public List<Move> addAllowedMoves(Move anAllowedMove, List<Move> allowedMoves) {
-        allowedMoves.add(anAllowedMove);
-        return allowedMoves;
+    private Boolean canCaptureDiagonally(
+            Board board, Coordinates from, Coordinates coordsPieceToTake) {
+
+            Piece pieceToTake = board.get(coordsPieceToTake);
+            if (
+                !board.isSquareOccupied(coordsPieceToTake) 
+                || pieceToTake.getColour() == colour
+                || pieceToTake.getType() == PieceType.KING
+            ) {
+                return false;
+            }
+        
+        return true;
     }
 
-    public List<Move> addToAllowedMovesIfCapturing(
-            Board board, Coordinates from, Coordinates coordsPieceToTake, List<Move> allowedMoves) {
-        
-        if (board.isSquareOccupied(coordsPieceToTake) && board.get(coordsPieceToTake).getColour() != colour)
-            allowedMoves.add(new Move(from, coordsPieceToTake));
-        
-        return allowedMoves;
+    private boolean canAdvanceOneSquare(Coordinates from, Board board, int direction) {
+        if (board.isSquareOccupied(from.plus(direction * 1, 0)))  {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -47,41 +55,27 @@ public class Pawn extends AbstractPiece {
 
         if (from.getRow() == startRow 
             && !board.isSquareOccupied(from.plus(direction * 2, 0))) {
-            addAllowedMoves(new Move(from, from.plus(direction * 2, 0)), allowedMoves);
+            allowedMoves.add(new Move(from, from.plus(direction * 2, 0)));
         }
 
-        if (colour == PlayerColour.WHITE) {
-
-            if (from.getRow() > endRow) {
-                //can move forward one square if unoccupied
-                if (!board.isSquareOccupied(from.plus(direction * 1, 0))) 
-                    addAllowedMoves(new Move(from, from.plus(direction * 1, 0)), allowedMoves);
-                
-                //moving diagonally if sq contains enemy piece
-                if (from.getCol() != startCol) 
-                    addToAllowedMovesIfCapturing(board, from, diagonallyLeft, allowedMoves);
-                    
-                if (from.getCol() != endCol)
-                addToAllowedMovesIfCapturing(board, from, diagonallyRight, allowedMoves);
-            }
-        }
-            
-
-        if (colour == PlayerColour.BLACK) {
-            if (from.getRow() < endRow) {
-                //can move forward one square if unoccupied
-                if (!board.isSquareOccupied(from.plus(direction * 1, 0)))
-                    addAllowedMoves(new Move(from, from.plus(direction * 1, 0)), allowedMoves);
+        if ((direction == -1 && from.getRow() > endRow)
+            || (direction == 1 && from.getRow() < endRow)) {
+                //canAdvanceOneSquare
+                if (canAdvanceOneSquare(from, board, direction)) {
+                    allowedMoves.add(new Move(from, from.plus(direction * 1, 0)));
+                }
 
                 //moving diagonally if sq contains enemy piece
-                if (from.getCol() != startCol) 
-                    addToAllowedMovesIfCapturing(board, from, diagonallyLeft, allowedMoves);
+                if (from.getCol() != startCol
+                    && canCaptureDiagonally(board, from, diagonallyLeft)) {
+                    allowedMoves.add(new Move(from, diagonallyLeft));
+                }
                     
-                if (from.getCol() != endCol)
-                    addToAllowedMovesIfCapturing(board, from, diagonallyRight, allowedMoves);
+                if (from.getCol() != endCol
+                    && canCaptureDiagonally(board, from, diagonallyRight)) {
+                    allowedMoves.add(new Move(from, diagonallyRight));
+                }
             }
-        }
-
         return allowedMoves;
     }
 }
